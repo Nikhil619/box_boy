@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>	
+
+  <node pkg="box_boy" type="frontier_opencv_detector.py" name="detector">
+  </node>
+
+  <node pkg="box_boy" type="filter.py" name="filter">
+  </node>
+
+  <node pkg="box_boy" type="explorer_node_v2.py" name="assigner">
+  </node>
+
+</launch>

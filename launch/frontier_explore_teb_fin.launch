@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>   
+
+  <node name="SLAM_VIEWER" pkg="rviz" type="rviz" output="screen" args="-d $(find box_boy)/config_final/SLAM_T.rviz"/>
+
+   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+   <param name ="publish_frequency" type=" double" value="50.0"/>
+   </node>
+
+  <!-- KARTO -->
+  <node pkg="slam_karto" type="slam_karto" name="slam_karto" output="screen">
+      <remap from="scan" to="scan_merge"/>
+      <param name="base_frame" value="base_link" />
+      <param name="odom_frame" value="odom" />
+      <param name="map_update_interval" value="2"/>
+      <param name="resolution" value="0.025" />
+    <rosparam command="load" file="$(find box_boy)/config_final/karto_mapper_params.yaml" />
+  </node>
+
+  <!-- AMCL -->
+  <include file="$(find box_boy)/launch/amcl_teb.launch"/>
+
+  <!--  ************** Navigation ***************  -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+          <rosparam file="$(find box_boy)/config_final/costmap_common_params.yaml" command="load" ns="global_costmap" />
+  	  <rosparam file="$(find box_boy)/config_final/costmap_common_params.yaml" command="load" ns="local_costmap" />
+  	  <rosparam file="$(find box_boy)/config_final/costmap_local_params.yaml" command="load" />
+  	  <rosparam file="$(find box_boy)/config_final/costmap_global_params.yaml" command="load" />
+  	  <rosparam file="$(find box_boy)/config_final/teb_local_planner_params_mapping.yaml" command="load" />
+
+	  <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+	  <param name="planner_frequency" value="3.0" />
+	  <param name="planner_patience" value="8.0" />
+
+	  <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+	  <param name="controller_frequency" value="10.0" />
+	  <param name="controller_patience" value="20.0" />
+	</node>
+
+</launch> 

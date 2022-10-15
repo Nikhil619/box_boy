@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+
+  <param name="robot_description" textfile="$(find box_boy)/urdf/3.urdf" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  <param name="use_gui" value="false"/>
+  </node>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+  <param name ="publish_frequency" type=" double" value="50.0"/>
+  </node>
+
+  <node name="serial_node" pkg="rosserial_python" type="serial_node.py">
+	<param name="port" value="/dev/ttyUSB0"/>
+  </node>
+
+  <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+  <include file="$(find freenect_launch)/launch/freenect.launch" />
+  <include file="$(find laserscan_kinect)/launch/laserscan.launch" />
+  <include file="$(find box_boy)/launch/merge_scan.launch" />
+
+  <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
+        <param name="speed" value="0.31" />
+        <param name="turn" value="0.77" />
+        <param name="frame_id" value="base_link" />
+        <param name="key_timeout" type="double" value="2.0" />
+  </node>
+
+  <node name="nox_controller" pkg="box_boy" type="nox_controller">
+	<param name="publish_tf" value="true" />
+    	<param name="publish_rate" value="10.0" />
+    	<param name="linear_scale_positive" value="1.025" />
+    	<param name="linear_scale_negative" value="1.025" />
+    	<param name="angular_scale_positive" value="1.078" />
+    	<param name="angular_scale_negative" value="1.078" />
+	<param name="angular_scale_accel" value="0.0" />
+  </node>	
+
+</launch>

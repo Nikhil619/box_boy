@@ -1,0 +1,363 @@
+<?xml version="1.0"?>
+<robot name="bot">
+    
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.6 0.6 0.4"/>
+            </geometry>
+            <material name="red">
+                <color rgba="0 0.0 1.0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.6 0.6 0.4"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.06" ixy="0" ixz="0" iyy="0.06" iyz="0.0" izz="0.06"/>
+        </inertial>
+        
+    </link>
+
+
+    <link name="front_caster_of_wheel">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+            <material name="green">
+                <color rgba="0.9 0.0 0.0 1"/>   
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="0.00083" ixy="0" ixz="0" iyy="0.00083" iyz="0.0" izz="0.000167"/>
+        </inertial>
+    </link>
+    <joint name="front_caster_of_wheel_joint" type="continuous">
+    <axis xyz="0.0 0.0 1"/> 
+    <parent link="base_link"/>
+    <child link="front_caster_of_wheel"/>
+    <origin xyz="0.3 0.0 -0.2" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <link name="front_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="0.035" length="0.05"/>
+            </geometry>
+            <material name="black">
+                
+            </material>
+
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.035" length="0.05"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="5.1458e-5" ixy="0" ixz="0" iyy="5.1458e-5" iyz="0.0" izz="6.125e-5"/>
+        </inertial>
+    </link>
+
+    <joint name="front_wheel_joint" type="continuous">
+        <axis xyz="0.0 0.0 1"/>
+        <parent link="front_caster_of_wheel"/>
+        <child link="front_wheel"/>
+        <origin xyz="0.05 0.0 -0.05" rpy="-1.5708 0.0 0.0"/>
+        
+    </joint>
+
+    <link name="right_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="0.085" length="0.05"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1"/>
+            </material>
+
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.085" length="0.05"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="2.0145e-4" ixy="0" ixz="0" iyy="2.0145e-4" iyz="0.0" izz="3.6125e-4"/>        </inertial>
+    </link>
+
+    <joint name="right_wheel_joint" type="continuous">
+        <axis xyz="0.0 0.0 1"/>
+        <parent link="base_link"/>
+        <child link="right_wheel"/>
+        <origin xyz="-0.3 -0.3 -0.2" rpy="-1.5708 0.0 0.0"/>
+    </joint>
+
+    <link name="left_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="0.085" length="0.05"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1"/>
+            </material>
+
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.085" length="0.05"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="2.0145e-4" ixy="0" ixz="0" iyy="2.0145e-4" iyz="0.0" izz="3.6125e-4"/>        </inertial>
+    </link>
+
+    <joint name="left_wheel_joint" type="continuous">
+        <axis xyz="0.0 0.0 1"/>
+        <parent link="base_link"/>
+        <child link="left_wheel"/>
+        <origin xyz="-0.3 0.3 -0.2" rpy="-1.5708 0.0 0.0"/>
+    </joint>
+    
+    <link name="laser_scanner">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <mass value="1e-5"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0.0" iyy="1e-6" iyz="0.0" izz="1e-6"/>
+        </inertial>
+    </link>
+
+    <joint name="laser_scanner_joint" type="fixed">
+        <axis xyz="0.0 1 0.0"/>
+        <parent link="base_link"/>
+        <child link="laser_scanner"/>
+        <origin xyz="0.25 0.0 0.25" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <gazebo reference="laser_scanner">
+        <sensor type="ray" name="laser">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>40</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>0</min_angle>
+                        <max_angle>6.292</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.1</min>
+                    <max>8</max>
+                    <resolution>0.1</resolution>
+                </range>
+            </ray>
+            <plugin name="Lidar" filename="libgazebo_ros_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>laser_scanner</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <link name="left">
+        <visual>
+            <geometry>
+                <box size="0.08 0.08 0.08"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0.0 0.0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.08 0.08 0.08"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="0.00010666" ixy="0" ixz="0" iyy="0.00010666" iyz="0.0" izz="0.00010666"/>
+        </inertial>
+        
+    </link>
+
+    <joint name="stereo_joint1" type="fixed">
+        <parent link="base_link"/>
+        <child link="left"/>
+        <origin xyz="0.34 0.1 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+   <link name="left_tf_frame" />
+   <joint name="left_tf_frame_joint" type="fixed">
+      <!-- Determine offset distance and orientation with respect to the parent link (here: chassis) -->
+      <origin xyz="0.34 0.1 0.0" rpy="1.57079 3.14159 1.57079" />
+      <parent link="base_link" />
+      <child link="left_tf_frame" />
+   </joint>
+
+    <!-- A regular RGB Camera -->
+    <gazebo reference="left">
+      <sensor type="camera" name="left">
+        <update_rate>30.0</update_rate>
+        <camera name="head">
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+        </camera>
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>stereo/left</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>left</frameName>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+
+    <link name="right">
+        <visual>
+            <geometry>
+                <box size="0.08 0.08 0.08"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0.0 0.0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.08 0.08 0.08"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="0.00010666" ixy="0" ixz="0" iyy="0.00010666" iyz="0.0" izz="0.00010666"/>
+        </inertial>
+        
+    </link>
+
+    <joint name="stereo_joint2" type="fixed">
+        <parent link="base_link"/>
+        <child link="right"/>
+        <origin xyz="0.34 -0.1 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+   <link name="right_tf_frame" />
+   <joint name="right_tf_frame_joint" type="fixed">
+      <!-- Determine offset distance and orientation with respect to the parent link (here: chassis) -->
+      <origin xyz="0.34 -0.1 0.0" rpy="1.57079 3.14159 1.57079" />
+      <parent link="base_link" />
+      <child link="right_tf_frame" />
+   </joint>
+
+    <!-- A regular RGB Camera -->
+    <gazebo reference="right">
+      <sensor type="camera" name="right">
+        <update_rate>30.0</update_rate>
+        <camera name="head">
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+        </camera>
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>stereo/right</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>right</frameName>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+
+    <gazebo>
+        <plugin name="explorer_bot_controller"   filename="libgazebo_ros_diff_drive.so">
+            <leftJoint>left_wheel_joint</leftJoint>
+            <rightJoint>right_wheel_joint</rightJoint>
+            <legacyMode>false</legacyMode>
+            <robotBaseFrame>base_link</robotBaseFrame>
+            <wheelSeparation>0.30</wheelSeparation>
+            <wheelDiameter>0.17</wheelDiameter>
+            <publishWheelJointState>true</publishWheelJointState>
+        </plugin>
+        
+    </gazebo>
+    <gazebo>
+        <plugin name="joint_state_publisher"
+                filename="libgazebo_ros_joint_state_publisher.so">
+            <jointName>front_caster_of_wheel_joint, front_wheel_joint</jointName>
+        </plugin>
+    </gazebo>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="front_caster_of_wheel">
+        <material>Gazebo/Red</material>
+      </gazebo>
+      <gazebo reference="front_wheel">
+        <material>Gazebo/Black</material>
+      </gazebo>
+      <gazebo reference="left_wheel">
+        <material>Gazebo/Black</material>
+      </gazebo>
+      <gazebo reference="right_wheel">
+        <material>Gazebo/Black</material>
+      </gazebo>
+
+
+</robot>

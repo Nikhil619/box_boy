@@ -1,0 +1,49 @@
+base_local_planner: dwa_local_planner/DWAPlannerROS
+base_global_planner: navfn/NavfnROS
+
+controller_frequency: 5
+recovery_behaviour_enabled: true
+
+NavfnROS:
+   allow_unknown: true
+   default_tolerance: 0.2
+
+
+DWAPlannerROS:
+# Robot Configuration Parameters
+  max_vel_x: 1.0
+  min_vel_x: -1.0
+
+  max_vel_y: 0.0
+  min_vel_y: 0.0
+
+  max_vel_theta: 3.14
+  max_vel_theta: -3.14
+  
+  max_rot_vel: 3.14
+  min_rot_vel: 0.5
+  max_vel_trans: 1.0
+  
+  acc_lim_th: 7
+  acc_lim_x: 2.5
+  acc_lim_y: 0.0
+  
+  yaw_goal_tolerance: 8
+  xy_goal_tolerance: 0.3
+
+  sim_time: 1.0
+
+  vx_samples: 12.0
+  vy_samples: 1
+  vtheta_samples: 24.0
+
+  pdist_scale: 0.6 #0.6
+  gdist_scale: 0.8 #0.8
+  occdist_scale: 3
+
+# Oscillation Prevention Parameters
+  oscillation_reset_dist: 0.05
+
+# Debugging
+  publish_traj_pc : true
+  publish_cost_grid_pc: true
