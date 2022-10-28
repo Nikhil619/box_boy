@@ -8,6 +8,7 @@
 double radius = 0.055;                              //Wheel radius, in m
 double wheelbase = 0.335;                          //Wheelbase, in m
 double two_pi = 6.28319;
+double pi = 3.146;
 double speed_act_left = 0.0;
 double speed_act_right = 0.0;
 double speed_req1 = 0.0;
@@ -34,7 +35,7 @@ int main(int argc, char** argv){
   ros::NodeHandle n;
   ros::NodeHandle nh_private_("~");
   ros::Subscriber sub = n.subscribe("speed", 50, handle_speed);
-  ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
+  ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("wheel/odom", 50);
   tf::TransformBroadcaster broadcaster;  
   
   double rate = 10.0;
@@ -51,10 +52,10 @@ int main(int argc, char** argv){
   double vx = 0.0;
   double vy = 0.0;
   double vth = 0.0;
-  char base_link[] = "/base_link";
-  char odom[] = "/odom";
-  char kinect[] = "/kinect";
-  char camera_link[] = "/camera_link";
+  char base_link[] = "base_link";
+  char odom[] = "wheel/odom";
+  #char kinect[] = "/kinect";
+  #char camera_link[] = "/camera_link";
   ros::Duration d(1.0);
   nh_private_.getParam("publish_rate", rate);
   nh_private_.getParam("publish_tf", publish_tf);
@@ -78,11 +79,11 @@ int main(int argc, char** argv){
     if (dxy > 0) dxy *= linear_scale_positive;
     if (dxy < 0) dxy *= linear_scale_negative;
 
-    dx = cos(dth) * dxy;
-    dy = sin(dth) * dxy;
+    x_pos = cos(theta) * dxy;
+    y_pos = sin(theta) * dxy;
 
-    x_pos += (cos(theta) * dx - sin(theta) * dy);
-    y_pos += (sin(theta) * dx + cos(theta) * dy);
+    #x_pos += (cos(theta) * dx - sin(theta) * dy);
+    #y_pos += (sin(theta) * dx + cos(theta) * dy);
     theta += dth;
 
     if(theta >= two_pi) theta -= two_pi;
