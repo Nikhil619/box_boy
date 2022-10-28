@@ -54,8 +54,8 @@ int main(int argc, char** argv){
   double vth = 0.0;
   char base_link[] = "base_link";
   char odom[] = "wheel/odom";
-  #char kinect[] = "/kinect";
-  #char camera_link[] = "/camera_link";
+  //char kinect[] = "/kinect";
+  //char camera_link[] = "/camera_link";
   ros::Duration d(1.0);
   nh_private_.getParam("publish_rate", rate);
   nh_private_.getParam("publish_tf", publish_tf);
@@ -82,8 +82,8 @@ int main(int argc, char** argv){
     x_pos = cos(theta) * dxy;
     y_pos = sin(theta) * dxy;
 
-    #x_pos += (cos(theta) * dx - sin(theta) * dy);
-    #y_pos += (sin(theta) * dx + cos(theta) * dy);
+    //x_pos += (cos(theta) * dx - sin(theta) * dy);
+    //y_pos += (sin(theta) * dx + cos(theta) * dy);
     theta += dth;
 
     if(theta >= two_pi) theta -= two_pi;
