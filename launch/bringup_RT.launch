@@ -18,7 +18,6 @@
   <include file="$(find rplidar_ros)/launch/rplidar.launch" />
   <include file="$(find freenect_launch)/launch/freenect.launch" />
   <include file="$(find laserscan_kinect)/launch/laserscan.launch" />
-  <include file="$(find box_boy)/launch/merge_scan.launch" />
 
   <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
         <param name="speed" value="0.31" />
@@ -37,4 +36,9 @@
 	<param name="angular_scale_accel" value="0.0" />
   </node>	
 
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+      <remap from="odometry/filtered" to="odom" />
+      <rosparam command="load" file="$(find box_boy)/config_final/ekf.yaml" />
+  </node>
+	
 </launch>
