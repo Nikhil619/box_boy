@@ -8,7 +8,7 @@
 double radius = 0.055;                              //Wheel radius, in m
 double wheelbase = 0.335;                          //Wheelbase, in m
 double two_pi = 6.28319;
-double pi = 3.146;
+double PI = 3.146;
 double speed_act_left = 0.0;
 double speed_act_right = 0.0;
 double speed_req1 = 0.0;
