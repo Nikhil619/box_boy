@@ -52,7 +52,7 @@ int main(int argc, char** argv){
   double vy = 0.0;
   double vth = 0.0;
   char base_link[] = "/base_link";
-  char odom[] = "/odom";
+  char odom[] = "/odom0";
   //char kinect[] = "/kinect";
   //char camera_link[] = "/camera_link";
   ros::Duration d(1.0);
