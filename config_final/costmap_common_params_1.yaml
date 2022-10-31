@@ -1,0 +1,26 @@
+footprint: [[-0.21, -0.21], [-0.21, 0.21], [0.21, 0.21], [0.21, -0.21]]
+
+inflation_radius: 0.5
+cost_scaling_factor: 3.0
+
+obstacle_range: 5.0
+raytrace_range: 5.5
+
+transform_tolerance: 0.5
+map_type: costmap
+
+always_send_full_costmap: true
+
+obstacle_layer:
+ enabled: true
+ observation_sources: scan
+ scan: {sensor_frame: laser_scanner, data_type: LaserScan, topic: scan, marking: true, clearing: true}
+
+static_layer:
+ enabled: true
+ map_topic: /map
+
+inflation_layer:
+ enabled: true
+ cost_scaling_factor: 3.0
+ inflation_radius: 0.5
