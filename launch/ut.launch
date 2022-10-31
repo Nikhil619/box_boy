@@ -17,4 +17,12 @@
     <node pkg="box_boy" type="lidar_test.py" name="rot_node">
     </node>
 
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
+          <param name="speed" value="0.31" />
+          <param name="turn" value="0.77" />
+          <param name="frame_id" value="base_link" />
+          <param name="key_timeout" type="double" value="2.0" />
+    </node>
+
+
 </launch>

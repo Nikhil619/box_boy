@@ -36,9 +36,9 @@
 	<param name="angular_scale_accel" value="0.0" />
   </node>	
 
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
       <remap from="odometry/filtered" to="odom" />
       <rosparam command="load" file="$(find box_boy)/config_final/ekf.yaml" />
   </node>
-	
+
 </launch>

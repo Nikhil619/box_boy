@@ -13,11 +13,11 @@
 
   <!--  ************** Navigation ***************  -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find box_boy)/config_final/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find box_boy)/config_final/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find box_boy)/config_final/costmap_local_params.yaml" command="load" />
-    <rosparam file="$(find box_boy)/config_final/costmap_global_params.yaml" command="load" />
-    <rosparam file="$(find box_boy)/config_final/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find box_boy)/config_final/costmap_common_params_1.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find box_boy)/config_final/costmap_common_params_1.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find box_boy)/config_final/costmap_local_params_1.yaml" command="load" />
+    <rosparam file="$(find box_boy)/config_final/costmap_global_params_1.yaml" command="load" />
+    <rosparam file="$(find box_boy)/config_final/teb_local_planner_params_1.yaml" command="load" />
 
     <param name="base_global_planner" value="global_planner/GlobalPlanner" />
     <param name="planner_frequency" value="3.0" />
