@@ -62,7 +62,7 @@ def node():
 #-------------------------------------------------------------------------
 	while not rospy.is_shutdown():	
 		centroids=copy(frontiers)
-                print(str(len(centroids))+" frontiers available, ", centroids)
+                print((str(len(centroids))+" frontiers available, ", centroids))
                 
 #------------------------------------------------------------------------- 
 		rate.sleep()

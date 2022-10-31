@@ -39,10 +39,10 @@ def rotate(angle):
 
 def callback_rot(msg):
     global target
-    print(msg.linear.x)
+    print((msg.linear.x))
     if msg.linear.x < 0.5 and msg.linear.x > -0.3: 
        if msg.angular.z >= 0.8 or msg.angular.z <= -0.8:
-          print(msg.angular.z, msg.linear.x)
+          print((msg.angular.z, msg.linear.x))
           y = threading.Thread(target=rotate, args=(msg.angular.z,))
           y.start()
     #rotate(msg.angular.z)

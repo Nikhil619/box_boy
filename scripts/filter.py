@@ -115,7 +115,7 @@ def node():
 
     # wait if no frontier is received yet
     while len(frontiers) < 1:
-        print("no fronts", frontiers)
+        print(("no fronts", frontiers))
         pass
 
     points = Marker()
@@ -238,7 +238,7 @@ def node():
             pp.append(copy(p))
         points_clust.points = pp
 
-        print("POINTS: ", points, points_clust)
+        print(("POINTS: ", points, points_clust))
         
         pub.publish(points)
         pub2.publish(points_clust)

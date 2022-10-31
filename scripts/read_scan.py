@@ -8,8 +8,8 @@ pub = rospy.Publisher('/scan2', LaserScan, queue_size = 10)
 scann = LaserScan()
 
 def callback(msg):
-    print len(msg.ranges)
-    print("FRONT SIDE: ", msg.ranges)
+    print(len(msg.ranges))
+    print(("FRONT SIDE: ", msg.ranges))
     
     """
     for i in range(len(msg.ranges)):

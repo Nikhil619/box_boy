@@ -14,7 +14,7 @@ def get_rotation (msg):
     orientation_q = msg.pose.pose.orientation
     orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
     (roll, pitch, yaw) = euler_from_quaternion (orientation_list)
-    print yaw
+    print(yaw)
 
 rospy.init_node('rotate_robot')
 
@@ -29,5 +29,5 @@ while not rospy.is_shutdown():
     target_rad = target*math.pi/180
     command.angular.z = kp * (target_rad-yaw)
     pub.publish(command)
-    print("target, current", target_rad,yaw)
+    print(("target, current", target_rad,yaw))
     r.sleep()

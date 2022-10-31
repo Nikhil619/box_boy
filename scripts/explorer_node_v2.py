@@ -28,10 +28,10 @@ mapData=OccupancyGrid()
 frontiers=[]
 
 def callBack(data):
-	global frontiers
-	frontiers=[]
-	for point in data.points:
-		frontiers.append(array([point.x,point.y]))
+    global frontiers
+    frontiers=[]
+    for point in data.points:
+        frontiers.append(array([point.x,point.y]))
 
 def mapCallBack(data):
     global mapData
@@ -66,63 +66,59 @@ def movebase_client(x_goal, y_goal, yaw_goal):
         return client.get_result()
 
 def node():
-	global frontiers,mapData
-	rospy.init_node('assigner', anonymous=False)
-	
-	# fetching all parameters
-	map_topic= rospy.get_param('~map_topic','map')
-	info_radius= rospy.get_param('~info_radius',1.0)					#this can be smaller than the laser scanner range, >> smaller >>less computation time>> too small is not 
+    global frontiers,mapData
+    rospy.init_node('assigner', anonymous=False)
+    
+    # fetching all parameters
+    map_topic= rospy.get_param('~map_topic','map')
+    info_radius= rospy.get_param('~info_radius',1.0)                    #this can be smaller than the laser scanner range, >> smaller >>less computation time>> too small is not 
 
-	frontiers_topic= rospy.get_param('~frontiers_topic','/filtered_points')	
+    frontiers_topic= rospy.get_param('~frontiers_topic','/filtered_points')    
 
-	rateHz = rospy.get_param('~rate',100)
-	
-	rate = rospy.Rate(rateHz)
+    rateHz = rospy.get_param('~rate',100)
+    
+    rate = rospy.Rate(rateHz)
 #-------------------------------------------
-	rospy.Subscriber(map_topic, OccupancyGrid, mapCallBack)
-	rospy.Subscriber(frontiers_topic, PointArray, callBack)
-        rospy.Subscriber('/odom', Odometry, get_odom)
+    rospy.Subscriber(map_topic, OccupancyGrid, mapCallBack)
+    rospy.Subscriber(frontiers_topic, PointArray, callBack)
+    rospy.Subscriber('/odom', Odometry, get_odom)
 #---------------------------------------------------------------------------------------------------------------
-		
+        
 # wait if no frontier is received yet 
-	while len(frontiers)<1:
-		pass
-	centroids=copy(frontiers)	
+    while len(frontiers)<1:
+        pass
+    centroids=copy(frontiers)    
 #wait if map is not received yet
-	while (len(mapData.data)<1):
-		pass	
+    while (len(mapData.data)<1):
+        pass    
 
 #-------------------------------------------------------------------------
 #---------------------     Main   Loop     -------------------------------
 #-------------------------------------------------------------------------
-	while not rospy.is_shutdown():	
-		centroids=copy(frontiers)
-                #print(str(len(centroids))+" frontiers available, ", centroids)
-                print(x,y, "robo pos")
-                
-                
-                
-                nearest_check = []
-                for i in centroids:
-                    dist = math.sqrt((x-i[0])**2+(y-i[1])**2)
-                    if dist < 1:
-                       nearest_check.append(10000000)
-                    else:
-                       nearest_check.append(dist)
-          
-                nearest_dist = min(nearest_check)
-                goal = centroids[nearest_check.index(nearest_dist)]
-                x_goal, y_goal = goal[0], goal[1]
-                print(x_goal, y_goal)
+    while not rospy.is_shutdown():   
+        centroids=copy(frontiers)
+        #print(str(len(centroids))+" frontiers available, ", centroids)
+        print((x,y, "robo pos"))
+        
+        nearest_check = []
+        for i in centroids:
+            dist = math.sqrt((x-i[0])**2+(y-i[1])**2)
+            if dist < 1:
+               nearest_check.append(10000000)
+            else:
+               nearest_check.append(dist)
+  
+        nearest_dist = min(nearest_check)
+        goal = centroids[nearest_check.index(nearest_dist)]
+        x_goal, y_goal = goal[0], goal[1]
+        print((x_goal, y_goal))
 
-                #G = threading.Thread(target=movebase_client, args=(x_goal,y_goal,0.9))
-                #G.start()
-                try:
-                   movebase_client(x_goal, y_goal, 0.9)
-                except:
-                   print("chaalu bro")
+        try:
+           movebase_client(x_goal, y_goal, 0.9)
+        except:
+           print("chaalu bro")
 #------------------------------------------------------------------------- 
-		rate.sleep()
+        rate.sleep()
 #-------------------------------------------------------------------------
 
 if __name__ == '__main__':

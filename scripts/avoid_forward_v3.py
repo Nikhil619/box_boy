@@ -38,21 +38,21 @@ def node():
             rospy.init_node('rot_node')
             rospy.Subscriber('/scan', LaserScan, callback, queue_size = 1) 
             rospy.Subscriber('/cmd_vel', Twist, callback_rot, queue_size =1)   
-            print(len(lidar_data))          
+            print((len(lidar_data)))          
 
             if lidar_data[0][180] < 0.4 or lidar_data[0][150] < 0.4 or lidar_data[0][210] < 0.4:                
-               print(command_velocity.angular.z, command_velocity.linear.x)
+               print((command_velocity.angular.z, command_velocity.linear.x))
                x = threading.Thread(target=rotate, args=(command_velocity.angular.z,))
                x.start()  
 
             elif lidar_data[0][0] < 0.4 or lidar_data[0][30] < 0.4 or lidar_data[0][330] < 0.4:                
-               print(command_velocity.angular.z, command_velocity.linear.x)
+               print((command_velocity.angular.z, command_velocity.linear.x))
                x = threading.Thread(target=rotate, args=(command_velocity.angular.z,))
                x.start() 
                 
             elif command_velocity.linear.x < 0.25 and command_velocity.linear.x > -0.125: 
                if command_velocity.angular.z >= 0.7 or command_velocity.angular.z <= -0.7:
-                  print(command_velocity.angular.z, command_velocity.linear.x)
+                  print((command_velocity.angular.z, command_velocity.linear.x))
                   y = threading.Thread(target=rotate, args=(command_velocity.angular.z,))
                   y.start()     
 

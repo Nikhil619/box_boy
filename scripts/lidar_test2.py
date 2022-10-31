@@ -42,21 +42,21 @@ def node():
             sub2 = rospy.Subscriber('/cmd_vel', Twist, callback_rot, queue_size =1)
 
             if len(lidar_data) > 0:
-               print(command_velocity.linear.x)
-               print(len(lidar_data[0]))
+               print((command_velocity.linear.x))
+               print((len(lidar_data[0])))
                if lidar_data[0][180] < 0.4 or lidar_data[0][150] < 0.4 or lidar_data[0][210] < 0.4:                
-                  print(command_velocity.angular.z, command_velocity.linear.x)
+                  print((command_velocity.angular.z, command_velocity.linear.x))
                   x = threading.Thread(target=rotate, args=(command_velocity.angular.z,))
                   x.start()  
 
                elif lidar_data[0][0] < 0.4 or lidar_data[0][30] < 0.4 or lidar_data[0][330] < 0.4:                
-                  print(command_velocity.angular.z, command_velocity.linear.x)
+                  print((command_velocity.angular.z, command_velocity.linear.x))
                   x = threading.Thread(target=rotate, args=(command_velocity.angular.z,))
                   x.start()        
                 
                elif command_velocity.linear.x < 0.225 and command_velocity.linear.x > -0.085: 
                   if command_velocity.angular.z >= 0.5 or command_velocity.angular.z <= -0.5:
-                     print(command_velocity.angular.z, command_velocity.linear.x)
+                     print((command_velocity.angular.z, command_velocity.linear.x))
                      y = threading.Thread(target=rotate, args=(command_velocity.angular.z,))
                      y.start()    
 

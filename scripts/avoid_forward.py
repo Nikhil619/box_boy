@@ -71,7 +71,7 @@ def callback(msg):
      if msg.ranges[320] > 0.7 and msg.ranges[380] > 0.7 and msg.ranges[260] > 0.7 and msg.ranges[440] > 0.7 and msg.ranges[200] > 0.7:
         x = threading.Thread(target=avoid, args=(8,))
         x.start()
-  print(msg.ranges[0])
+  print((msg.ranges[0]))
   
 
 while not rospy.is_shutdown():
