@@ -8,7 +8,6 @@
 double radius = 0.055;                              //Wheel radius, in m
 double wheelbase = 0.335;                          //Wheelbase, in m
 double two_pi = 6.28319;
-double PI = 3.146;
 double speed_act_left = 0.0;
 double speed_act_right = 0.0;
 double speed_req1 = 0.0;
@@ -35,15 +34,15 @@ int main(int argc, char** argv){
   ros::NodeHandle n;
   ros::NodeHandle nh_private_("~");
   ros::Subscriber sub = n.subscribe("speed", 50, handle_speed);
-  ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("wheel/odom", 50);
-  tf::TransformBroadcaster broadcaster;  
+  ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom0", 50);
+  //tf::TransformBroadcaster broadcaster;  
   
   double rate = 10.0;
   double linear_scale_positive = 1.0;
   double linear_scale_negative = 1.0;
   double angular_scale_positive = 1.0;
   double angular_scale_negative = 1.0;
-  bool publish_tf = true;
+  //bool publish_tf = true;
   double dt = 0.0;
   double dx = 0.0;
   double dy = 0.0;
@@ -52,13 +51,13 @@ int main(int argc, char** argv){
   double vx = 0.0;
   double vy = 0.0;
   double vth = 0.0;
-  char base_link[] = "base_link";
-  char odom[] = "wheel/odom";
+  char base_link[] = "/base_link";
+  char odom[] = "/odom";
   //char kinect[] = "/kinect";
   //char camera_link[] = "/camera_link";
   ros::Duration d(1.0);
   nh_private_.getParam("publish_rate", rate);
-  nh_private_.getParam("publish_tf", publish_tf);
+  //nh_private_.getParam("publish_tf", publish_tf);
   nh_private_.getParam("linear_scale_positive", linear_scale_positive);
   nh_private_.getParam("linear_scale_negative", linear_scale_negative);
   nh_private_.getParam("angular_scale_positive", angular_scale_positive);
@@ -79,11 +78,11 @@ int main(int argc, char** argv){
     if (dxy > 0) dxy *= linear_scale_positive;
     if (dxy < 0) dxy *= linear_scale_negative;
 
-    x_pos = cos(theta) * dxy;
-    y_pos = sin(theta) * dxy;
+    dx = cos(dth) * dxy;
+    dy = sin(dth) * dxy;
 
-    //x_pos += (cos(theta) * dx - sin(theta) * dy);
-    //y_pos += (sin(theta) * dx + cos(theta) * dy);
+    x_pos += (cos(theta) * dx - sin(theta) * dy);
+    y_pos += (sin(theta) * dx + cos(theta) * dy);
     theta += dth;
 
     if(theta >= two_pi) theta -= two_pi;
@@ -92,17 +91,17 @@ int main(int argc, char** argv){
     geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(theta);
     geometry_msgs::Quaternion empty_quat = tf::createQuaternionMsgFromYaw(0);
 
-    if(publish_tf) {
-      geometry_msgs::TransformStamped t;
-      geometry_msgs::TransformStamped k;
+    //if(publish_tf) {
+      //geometry_msgs::TransformStamped t;
+      //geometry_msgs::TransformStamped k;
       
-      t.header.frame_id = odom;
-      t.child_frame_id = base_link;
-      t.transform.translation.x = x_pos;
-      t.transform.translation.y = y_pos;
-      t.transform.translation.z = 0.0;
-      t.transform.rotation = odom_quat;
-      t.header.stamp = current_time;
+      //t.header.frame_id = odom;
+      //t.child_frame_id = base_link;
+      //t.transform.translation.x = x_pos;
+      //t.transform.translation.y = y_pos;
+      //t.transform.translation.z = 0.0;
+      //t.transform.rotation = odom_quat;
+      //t.header.stamp = current_time;
       
       //k.header.frame_id = kinect;
       //k.child_frame_id = camera_link;
@@ -112,9 +111,9 @@ int main(int argc, char** argv){
       //k.transform.rotation = empty_quat;
       //k.header.stamp = current_time;
 
-      broadcaster.sendTransform(t);
+      //broadcaster.sendTransform(t);
       //broadcaster.sendTransform(k);
-    }
+    //}
 
     nav_msgs::Odometry odom_msg;
     odom_msg.header.stamp = current_time;
